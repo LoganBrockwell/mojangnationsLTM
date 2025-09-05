@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Password Protected Video</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+    #video-container {
+      display: none;
+      margin-top: 20px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 5px;
+      border: none;
+    }
+    input {
+      width: 200px;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h2>Enter Password to Unlock Video</h2>
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="checkPassword()">Submit</button>
+
+  <div id="video-container">
+    <iframe width="560" height="315" 
+      src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+      frameborder="0" allowfullscreen></iframe>
+  </div>
+
+  <script>
+    function checkPassword() {
+      const correctPassword = "letmein"; // change this password
+      const enteredPassword = document.getElementById("password").value;
+      if (enteredPassword === correctPassword) {
+        document.getElementById("video-container").style.display = "block";
+      } else {
+        alert("Incorrect password, try again!");
+      }
+    }
+  </script>
+</body>
+</html>
