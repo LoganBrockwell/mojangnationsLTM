@@ -1,63 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Password Protected Video</title>
+  <meta charset="utf-8" />
+  <title>Enter Password</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
-    }
-    #video-container {
-      display: none;
-      margin-top: 20px;
-    }
-    input, button {
-      padding: 10px;
-      margin: 5px;
-      border-radius: 5px;
-      border: none;
-    }
-    input {
-      width: 200px;
-    }
-    button {
-      background: #007bff;
-      color: white;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #0056b3;
-    }
+    :root{--bg:#0f1720;--card:#0b1220;--accent:#37b;--muted:#98a0b2}
+    html,body{height:100%;margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#09101a 0%, #07121a 100%);color:#e6eef8}
+    .wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box}
+    .card{width:100%;max-width:720px;background:rgba(255,255,255,0.03);padding:28px;border-radius:12px;box-shadow:0 6px 30px rgba(0,0,0,0.6);text-align:center}
+    h1{margin:0 0 12px;font-weight:600}
+    p.lead{margin:0 0 18px;color:var(--muted)}
+    .controls{display:flex;gap:8px;justify-content:center;align-items:center;margin-bottom:18px}
+    input[type="password"]{padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;font-size:16px;outline:none}
+    button.btn{padding:10px 14px;border-radius:8px;border:0;background:linear-gradient(90deg,#4c6cff,#2bb1ff);color:#021028;font-weight:600;cursor:pointer}
+    .hint{font-size:13px;color:var(--muted);margin-bottom:10px}
+    #video-container{display:none;margin-top:18px}
+    .decoy{font-size:12px;color:#324156;margin-top:10px}
+    @media(max-width:600px){ iframe{width:100%;height:220px} }
   </style>
 </head>
-<body>
-  <h2>Enter Password to Unlock Video</h2>
-  <input type="password" id="password" placeholder="Password">
-  <button onclick="checkPassword()">Submit</button>
+<body oncontextmenu="return false">
+  <div class="wrap">
+    <div class="card" role="main" aria-labelledby="title">
+      <h1 id="title">Unlock the Clip</h1>
+      <p class="lead">Type the password to reveal the video.</p>
 
-  <div id="video-container">
-    <iframe width="560" height="315" 
-      src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-      frameborder="0" allowfullscreen></iframe>
+      <div class="controls" aria-hidden="false">
+        <input id="pw" type="password" placeholder="Password" autocomplete="off" />
+        <button class="btn" id="go">Submit</button>
+      </div>
+
+      <div class="hint">This is intentionally a small deterrent — not a secure lock.</div>
+      <div class="decoy">Debug token: <em>guest123</em></div>
+
+      <div id="video-container" aria-hidden="true">
+        <iframe id="yt" width="640" height="360" src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        </iframe>
+      </div>
+    </div>
   </div>
 
   <script>
-    function checkPassword() {
-      const correctPassword = "letmein"; // change this password
-      const enteredPassword = document.getElementById("password").value;
-      if (enteredPassword === correctPassword) {
-        document.getElementById("video-container").style.display = "block";
-      } else {
-        alert("Incorrect password, try again!");
+    const fakePassword = "guest123";
+    const b64parts = ["TF", "VO", "SU", "M="];
+
+    function getRealPassword(){
+      try {
+        const b64 = b64parts.join("");
+        return atob(b64);
+      } catch(e) {
+        return "LUNIC";
       }
     }
+
+    function revealVideo() {
+      const cont = document.getElementById("video-container");
+      cont.style.display = "block";
+      cont.setAttribute("aria-hidden", "false");
+      setTimeout(()=>document.getElementById("yt").focus(), 300);
+    }
+
+    function checkPasswordEntered() {
+      const entered = document.getElementById("pw").value;
+      const real = getRealPassword();
+      const delay = 300 + Math.floor(Math.random()*700);
+
+      if (entered === fakePassword) {
+        setTimeout(()=>alert("That looks like a guest token — not valid."), 200);
+        return;
+      }
+
+      setTimeout(() => {
+        if (entered === real) {
+          revealVideo();
+        } else {
+          alert("Incorrect password. Keep trying.");
+        }
+      }, delay);
+    }
+
+    document.getElementById("go").addEventListener("click", checkPasswordEntered);
+    document.getElementById("pw").addEventListener("keydown", function(e){
+      if (e.key === "Enter") {
+        e.preventDefault();
+        checkPasswordEntered();
+      }
+    });
+
+    window.addEventListener("keydown", function(e){
+      if (e.key === "F12") { e.preventDefault(); return false; }
+      if (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "C")) { e.preventDefault(); return false; }
+      if (e.ctrlKey && (e.key === "U" || e.key === "u")) { e.preventDefault(); return false; }
+    });
+
+    document.addEventListener("contextmenu", function(e){ e.preventDefault(); return false; });
+
+    (function(){
+      const alias = getRealPassword;
+      window.__r = alias;
+    })();
   </script>
 </body>
 </html>
