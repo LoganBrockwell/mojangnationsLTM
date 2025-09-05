@@ -2,105 +2,114 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Enter Password</title>
+  <title>ᔑリᔑリℸ ̣ ℸ ̣ᓭᓭ</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://fonts.cdnfonts.com/css/standard-galactic-alphabet" rel="stylesheet">
   <style>
-    :root{--bg:#0f1720;--card:#0b1220;--accent:#37b;--muted:#98a0b2}
-    html,body{height:100%;margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#09101a 0%, #07121a 100%);color:#e6eef8}
-    .wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box}
-    .card{width:100%;max-width:720px;background:rgba(255,255,255,0.03);padding:28px;border-radius:12px;box-shadow:0 6px 30px rgba(0,0,0,0.6);text-align:center}
-    h1{margin:0 0 12px;font-weight:600}
-    p.lead{margin:0 0 18px;color:var(--muted)}
-    .controls{display:flex;gap:8px;justify-content:center;align-items:center;margin-bottom:18px}
-    input[type="password"]{padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;font-size:16px;outline:none}
-    button.btn{padding:10px 14px;border-radius:8px;border:0;background:linear-gradient(90deg,#4c6cff,#2bb1ff);color:#021028;font-weight:600;cursor:pointer}
-    .hint{font-size:13px;color:var(--muted);margin-bottom:10px}
-    #video-container{display:none;margin-top:18px}
-    .decoy{font-size:12px;color:#324156;margin-top:10px}
-    @media(max-width:600px){ iframe{width:100%;height:220px} }
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: url("https://i.imgur.com/oR1J4sD.png") repeat; /* Minecraft stone background */
+      font-family: 'Standard Galactic Alphabet', monospace;
+      color: #4ee34e;
+      text-shadow: 2px 2px 4px #000;
+    }
+    .card {
+      background: rgba(0,0,0,0.7);
+      padding: 30px;
+      border: 3px solid #3a9c3a;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #0f0;
+      text-align: center;
+    }
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    input[type="password"] {
+      padding: 10px;
+      border-radius: 6px;
+      border: 2px solid #2e7d32;
+      font-size: 18px;
+      font-family: inherit;
+      background: #111;
+      color: #4ee34e;
+      text-align: center;
+    }
+    button {
+      padding: 10px 18px;
+      border-radius: 6px;
+      border: none;
+      margin-left: 10px;
+      font-size: 18px;
+      font-family: inherit;
+      background: #3a9c3a;
+      color: #111;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #56d956;
+    }
+    #video-container {
+      display: none;
+      margin-top: 20px;
+    }
+    iframe {
+      border: 3px solid #2e7d32;
+      border-radius: 8px;
+      box-shadow: 0 0 20px #0f0;
+    }
   </style>
 </head>
 <body oncontextmenu="return false">
-  <div class="wrap">
-    <div class="card" role="main" aria-labelledby="title">
-      <h1 id="title">Unlock the Clip</h1>
-      <p class="lead">Type the password to reveal the video.</p>
-
-      <div class="controls" aria-hidden="false">
-        <input id="pw" type="password" placeholder="Password" autocomplete="off" />
-        <button class="btn" id="go">Submit</button>
-      </div>
-
-      <div class="hint">This is intentionally a small deterrent — not a secure lock.</div>
-      <div class="decoy">Debug token: <em>guest123</em></div>
-
-      <div id="video-container" aria-hidden="true">
-        <iframe id="yt" width="640" height="360" src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-        </iframe>
-      </div>
+  <div class="card">
+    <h1>Enter Password</h1>
+    <p>ᔑ∷リ 𝙹 ᔑリ↸ ʖ ᔑリ</p>
+    <div>
+      <input id="pw" type="password" placeholder="······" autocomplete="off" />
+      <button id="go">⎓╎ᓭ</button>
+    </div>
+    <div id="video-container">
+      <iframe id="yt" width="560" height="315"
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+        title="YouTube video player" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
     </div>
   </div>
 
   <script>
-    const fakePassword = "guest123";
     const b64parts = ["TF", "VO", "SU", "M="];
-
     function getRealPassword(){
-      try {
-        const b64 = b64parts.join("");
-        return atob(b64);
-      } catch(e) {
-        return "LUNIC";
-      }
+      try { return atob(b64parts.join("")); }
+      catch(e) { return "LUNIC"; }
     }
-
     function revealVideo() {
-      const cont = document.getElementById("video-container");
-      cont.style.display = "block";
-      cont.setAttribute("aria-hidden", "false");
-      setTimeout(()=>document.getElementById("yt").focus(), 300);
+      document.getElementById("video-container").style.display = "block";
     }
-
     function checkPasswordEntered() {
       const entered = document.getElementById("pw").value;
-      const real = getRealPassword();
-      const delay = 300 + Math.floor(Math.random()*700);
-
-      if (entered === fakePassword) {
-        setTimeout(()=>alert("That looks like a guest token — not valid."), 200);
-        return;
+      if (entered === getRealPassword()) {
+        revealVideo();
+      } else {
+        alert("ᔑ∷リ ʖᔑᓭℸ ̣ ᒷリℸ ̣ᔑリリᒷ↸"); // "Password Incorrect" (SGA font will render glyphs)
       }
-
-      setTimeout(() => {
-        if (entered === real) {
-          revealVideo();
-        } else {
-          alert("Incorrect password. Keep trying.");
-        }
-      }, delay);
     }
-
     document.getElementById("go").addEventListener("click", checkPasswordEntered);
-    document.getElementById("pw").addEventListener("keydown", function(e){
-      if (e.key === "Enter") {
-        e.preventDefault();
-        checkPasswordEntered();
-      }
+    document.getElementById("pw").addEventListener("keydown", e=>{
+      if (e.key==="Enter") checkPasswordEntered();
     });
-
     window.addEventListener("keydown", function(e){
-      if (e.key === "F12") { e.preventDefault(); return false; }
-      if (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "C")) { e.preventDefault(); return false; }
-      if (e.ctrlKey && (e.key === "U" || e.key === "u")) { e.preventDefault(); return false; }
+      if (e.key==="F12"|| (e.ctrlKey&&e.key.toLowerCase()==="u")) e.preventDefault();
     });
-
-    document.addEventListener("contextmenu", function(e){ e.preventDefault(); return false; });
-
-    (function(){
-      const alias = getRealPassword;
-      window.__r = alias;
-    })();
   </script>
 </body>
 </html>
